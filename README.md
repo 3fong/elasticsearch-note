@@ -9,6 +9,10 @@ Elasticsearch 是一个实时的分布式搜索分析引擎,它被用作全文�
 不需要内容的索引
 不需要集群的场景
 
+- node 节点: 集群中的一个服务器,用于存储数据,参与集群的索引和搜索.
+- index 索引:文档分类.类似于关系数据库中的DataBase.
+- type 类型:在一个索引中,你可以定义一种或多种类型.一个类型是你索引的一个逻辑分类/分区,其语义由你确定.通常将具有共同字段的文档定义为一个类型.类似于table;
+- document 文档:可以被索引的基础信息单元.类似于Record.
 
 更轻量的索引 rust语言 见锋亮博客
 
@@ -66,3 +70,27 @@ On Linux, you can increase the limits by running the following command as root:
 To set this value permanently, update the vm.max_map_count setting in /etc/sysctl.conf. To verify after rebooting, run sysctl vm.max_map_count.
 
 The RPM and Debian packages will configure this setting automatically. No further configuration is required.
+
+Maximum map count checkedit
+Continuing from the previous point, to use mmap effectively, Elasticsearch also requires the ability to create many memory-mapped areas. The maximum map count check checks that the kernel allows a process to have at least 262,144 memory-mapped areas and is enforced on Linux only. To pass the maximum map count check, you must configure vm.max_map_count via sysctl to be at least 262144.
+
+Alternatively, the maximum map count check is only needed if you are using mmapfs or hybridfs as the store type for your indices. If you do not allow the use of mmap then this bootstrap check will not be enforced.
+
+
+Discovery configuration checkedit
+By default, when Elasticsearch first starts up it will try and discover other nodes running on the same host. If no elected master can be discovered within a few seconds then Elasticsearch will form a cluster that includes any other nodes that were discovered. It is useful to be able to form this cluster without any extra configuration in development mode, but this is unsuitable for production because it’s possible to form multiple clusters and lose data as a result.
+
+This bootstrap check ensures that discovery is not running with the default configuration. It can be satisfied by setting at least one of the following properties:
+
+discovery.seed_hosts
+discovery.seed_providers
+cluster.initial_master_nodes
+
+
+path.data
+Every data and master-eligible node requires access to a data directory where shards and index and cluster metadata will be stored. The path.data defaults to $ES_HOME/data but can be configured in the elasticsearch.yml config file an absolute path or a path relative to $ES_HOME as follows:
+
+path.data:  /var/elasticsearch/data
+Like all node settings, it can also be specified on the command line as:
+
+./bin/elasticsearch -Epath.data=/var/elasticsearch/data
