@@ -25,6 +25,8 @@ chown -R es:es elasticsearch-6.3.2/
 
 chmod 770 elasticsearch-6.3.2/
 
+服务启动配置  https://www.cnblogs.com/michael-xiang/p/10810339.html
+
 配置生效优先级
 
 If you configure the same setting using multiple methods, Elasticsearch applies the settings in following order of precedence:
@@ -40,6 +42,8 @@ network.host
 By default, Elasticsearch assumes that you are working in development mode. If any of the above settings are not configured correctly, a warning will be written to the log file, but you will be able to start and run your Elasticsearch node.
 
 As soon as you configure a network setting like network.host, Elasticsearch assumes that you are moving to production and will upgrade the above warnings to exceptions. These exceptions will prevent your Elasticsearch node from starting. This is an important safety measure to ensure that you will not lose data because of a malconfigured server.
+
+If Elasticsearch is in development mode, any bootstrap checks that fail appear as warnings in the Elasticsearch log. If Elasticsearch is in production mode, any bootstrap checks that fail will cause Elasticsearch to refuse to start.
 
 
 临时文件配置
