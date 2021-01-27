@@ -21,13 +21,6 @@ Elasticsearch 是一个实时的分布式搜索分析引擎,它被用作全文�
 - index,type,document关系:
 	一个index有多个type,一个type有多个document,一个document有多个属性;
 
-创建员工文档:
-
-	每个员工索引(创建)一个文档，文档包含该员工的所有信息。
-	每个文档都将是 employee 类型 。
-	该类型位于 索引 megacorp 内。
-	该索引保存在我们的 Elasticsearch 集群中。
-
 
 更轻量的索引 rust语言 见锋亮博客
 
@@ -114,40 +107,4 @@ Like all node settings, it can also be specified on the command line as:
 
 ./bin/elasticsearch -Epath.data=/var/elasticsearch/data
 
-
-与ElasticSearch交互:
-
-rest
-
-	curl -X<VERB> '<PROTOCOL>://<HOST>:<PORT>/<PATH>?<QUERY_STRING>' -d '<BODY>'
-
-被 < > 标记的部件：
-
-VERB
-
-适当的 HTTP 方法 或 谓词 : GET、 POST、 PUT、 HEAD 或者 DELETE。
-
-PROTOCOL
-
-http 或者 https（如果你在 Elasticsearch 前面有一个 https 代理）
-
-HOST
-
-Elasticsearch 集群中任意节点的主机名，或者用 localhost 代表本地机器上的节点。
-
-PORT
-
-运行 Elasticsearch HTTP 服务的端口号，默认是 9200 。
-
-PATH
-
-API 的终端路径（例如 _count 将返回集群中文档数量）。Path 可能包含多个组件，例如：_cluster/stats 和 _nodes/stats/jvm 。
-
-QUERY_STRING
-
-任意可选的查询字符串参数 (例如 ?pretty 将格式化地输出 JSON 返回值，使其更容易阅读)
-
-BODY
-
-一个 JSON 格式的请求体 (如果请求需要的话)
 
